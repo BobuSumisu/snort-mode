@@ -13,9 +13,6 @@
     : snort-test-pcap
     Test rule file against a PCAP file.
 *** Functions
-    : snort-next-rule 
-    Go to the next Snort rule.
-
-    : snort-previous-rule
-    Go to the previous rule.
+    Go to the next Snort rule. : snort-next-rule
+    Go to the previous rule. : snort-previous-rule
 
