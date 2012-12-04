@@ -14,10 +14,10 @@
     Go to the next Snort rule with =snort-next-rule=
     Go to the previous rule =snort-previous-rule=
 *** Todo
-    * Remove word lists when regexp are created? (free memory) 
-    * Does not support user created rule actions 
-    * Variable modifiers 
-    * Syntax table
-    * Function =snort-kill-rule=
+    - Remove word lists when regexp are created? (free memory) 
+    - Does not support user created rule actions 
+    - Variable modifiers 
+    - Syntax table
+    - Function =snort-kill-rule=
 
 
