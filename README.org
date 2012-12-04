@@ -1,0 +1,9 @@
+#+TITLE: Snort-mode
+#+AUTHOR: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
+#+DATE: <2012-12-04 Tue>
+
+* snort-mode
+** Disclaimer
+** Syntax highlighting
+** Functions
+** Testing
