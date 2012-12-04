@@ -1,9 +1,21 @@
-#+TITLE: Snort-mode
 #+AUTHOR: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
 #+DATE: <2012-12-04 Tue>
 
-* snort-mode
+* Snort Major Mode
 ** Disclaimer
-** Syntax highlighting
-** Functions
-** Testing
+   This is my first project in elisp, so any tips/issues are highly welcome! 
+** Features
+*** Misc
+    Basic support for syntax highlighting, commenting and indentation.
+*** Testing
+    : snort-validate
+    Validate the syntax of the current rule file.
+    : snort-test-pcap
+    Test rule file against a PCAP file.
+*** Functions
+    : snort-next-rule 
+    Go to the next Snort rule.
+
+    : snort-previous-rule
+    Go to the previous rule.
+
