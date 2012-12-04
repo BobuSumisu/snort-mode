@@ -8,11 +8,16 @@
 *** Misc
     Basic support for syntax highlighting, commenting and indentation.
 *** Testing
-    : snort-validate
-    Validate the syntax of the current rule file.
-    : snort-test-pcap
-    Test rule file against a PCAP file.
+    Validate the syntax of the current rule file with =snort-validate=
+    To test rules against a PCAP file =snort-test-pcap=
 *** Functions
-    Go to the next Snort rule. : snort-next-rule
-    Go to the previous rule. : snort-previous-rule
+    Go to the next Snort rule with =snort-next-rule=
+    Go to the previous rule =snort-previous-rule=
+*** Todo
+    * Remove word lists when regexp are created? (free memory) 
+    * Does not support user created rule actions 
+    * Variable modifiers 
+    * Syntax table
+    * Function =snort-kill-rule=
+
 

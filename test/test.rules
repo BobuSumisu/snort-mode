@@ -1,0 +1,57 @@
+
+# #
+# # generic test rules
+# # 
+
+# (call-process "snort" nil "test.rules" nil 
+#     "-c" "test.rules.conf" 
+#     "-r" (expand-file-name "~/.emacs.d/site-lisp/snort-mode/test/http.cap") 
+#     "-A" "console" "-q")
+
+var RULES_PATH rules/
+
+# alert tcp any any -> 192.168.1.0/24 111 \
+#    ( content:"|00 01 86 a5|"; msg:"mountd anyone access"; sid:1; ) 
+
+# log tcp any any -> 192.168.1.0/24 :6000
+
+alert tcp any any -> any 80 (msg:"HTTP (GET) Service Rule Example"; \
+    metadata:service http; sid:2;)
+
+# alert tcp any any -> any any (msg:"UTF8/UEncode Encoding present"; http_encode:uri,utf8|uencode;)
+
+# alert tcp $EXTERNAL_NET any -> $HOME_NET any \
+#     (msg:"Base64 Encoded Data"; base64_decode; base64_data; \
+#     content:"foo bar"; within:20;)
+
+# alert tcp $EXTERNAL_NET any -> $HOME_NET any \
+#     (msg:"AMD procedure 7 plog overflow"; \
+#     content:"|00 04 93 F3|"; \
+#     content:"|00 00 00 07|"; distance:4; within:4; \
+#     byte_test:4, >, 1000, 20, relative;)
+
+# alert tcp any any -> any any (byte_extract:1, 0, str_offset; \
+#     byte_extract:1, 1, str_depth; \
+#     content:"bad stuff"; offset:str_offset; depth:str_depth; \
+#     msg:"Bad Stuff detected within field";)
+
+# alert ip any any -> any any \
+#     (msg:"First Fragment"; fragbits:M; fragoffset:0;)
+
+# log tcp any any <> any 12345 (metadata:service ftp-data; session:binary;)
+
+# alert tcp any any <> 10.1.1.1 any \
+#     (flowbits:isnotset,tagged; content:"foobar"; nocase; \
+#     flowbits:set,tagged; tag:host,600,seconds,src;)
+
+# # snort-action snort-protocol <IP> snort-keyword > <IP> ( \
+# #    snort-modifier: <text>
+# #    snort-modifier: snort-keyword, snort-keyword
+# #   
+# drop tcp 10.1.2.100 any > 10.1.1.100 22 ( \
+#     msg:"SSH Brute Force Attempt";
+#     flow:established,to_server; \
+#     content:"SSH"; nocase; offset:0; depth:4; \
+#     detection_filter:track by_src, count 30, seconds 60; \
+#     sid:1000001; rev:1;)        
+
