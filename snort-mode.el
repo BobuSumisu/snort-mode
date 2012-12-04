@@ -149,7 +149,7 @@
   (let ((file (file-name-nondirectory buffer-file-name)))
         (with-temp-file (concat file ".conf")
           (insert (concat "include " file))
-          (insert "\nclonfig logdir: .\n"))))
+          (insert "\nconfig logdir: .\n"))))
 
 (defun snort-validate ()
   "Validate the syntax of the current Snort-file."
