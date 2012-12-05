@@ -79,10 +79,6 @@
     (,snort-variables-regexp . font-lock-variable-name-face)
     ))
 
-
-(defun snort-set-offset offset
-  (setq snort-set-basic-offset offset))
-
 (defun snort-indent-line ()
   "Indent current line of Snort code."
   (interactive)
