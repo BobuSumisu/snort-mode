@@ -187,20 +187,12 @@
                     "-q")
       (goto-char (point-max)))))
 
-(define-derived-mode snort-mode fundamental-mode
-  "snort-mode"
-  "A major mode for editing Snort rules."
-  (kill-all-local-variables)
-
-  (use-local-map snort-mode-map)
-  ; (set-syntax-table snort-mode-syntax-table)
+(define-derived-mode snort-mode prog-mode
+  "Snort" "A major mode for editing Snort rules."
+  ;; (set-syntax-table snort-mode-syntax-table)
   (set (make-local-variable 'font-lock-defaults) '(snort-font-lock-keywords))
   (set (make-local-variable 'indent-line-function) 'snort-indent-line)
-
-  (setq major-mode 'snort-mode)
-  (setq mode-name "Snort")
-  (setq comment-start "#")
-  (run-hooks 'snort-mode-hook))
+  (setq comment-start "#"))
 
 (provide 'snort-mode)
 
