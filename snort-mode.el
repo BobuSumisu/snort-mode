@@ -2,6 +2,7 @@
 
 ;; Author: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
 ;; Edited: <2012-12-04 Tue>
+;; Version: 1.0
 ;; Source:
 
 ;; Todo:
