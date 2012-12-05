@@ -144,53 +144,43 @@
   (interactive)
   (let ((file (file-name-nondirectory buffer-file-name)))
         (with-temp-file (concat file ".conf")
-          (insert (concat "include " file))
-          (insert "\nconfig logdir: .\n"))))
+          (insert (format "include %s\nconfig logdir: .\n" file)))))
 
 (defun snort-validate ()
   "Validate the syntax of the current Snort-file."
   (interactive)
-  (with-output-to-temp-buffer "*snort*"
-    (princ "[snort-mode] Validating buffer\n")
+  (with-current-buffer (get-buffer-create "*snort*")
+    (erase-buffer)
+    (insert "[snort-mode] Validating buffer\n")
     (let ((conf-file (concat (file-name-nondirectory buffer-file-name) ".conf")))
-      (if (not (file-exists-p conf-file))
-          (progn
-            (princ "[snort-mode] Config file not found - creating simple config: ")
-            (prin1 conf-file)
-            (princ "\n")
-            (snort-create-config-for-current-file))
-        (princ "[snort-mode] Using config file: ")
-        (prin1 conf-file)
-        (princ "\n"))
-      (princ "[snort-mode] Starting Snort\n")
-      (call-process "snort" nil "*snort*" nil
+      (if (file-exists-p conf-file)
+          (insert "[snort-mode] Using config file: " conf-file "\n")
+        (insert "[snort-mode] Config file not found - creating simple config: "
+                conf-file "\n")
+        (snort-create-config-for-current-file))
+      (insert "[snort-mode] Starting Snort\n")
+      (call-process "snort" nil (current-buffer) nil
                     "-c" conf-file
                     "-T")
-      (switch-to-buffer-other-window "*snort*")
+      (switch-to-buffer-other-window (current-buffer))
       (goto-char (point-max)))))
 
-(defun snort-test-pcap (pcap)
+(defun snort-test-pcap (pcap-file)
   "Test rules against a PCAP."
   (interactive "fChoose PCAP-file: ")
-  (with-output-to-temp-buffer "*snort*"
-    (princ "[snort-mode] Validating buffer\n")
-    (let ((conf-file (concat (file-name-nondirectory buffer-file-name) ".conf"))
-          (pcap-file pcap))
-      (princ "[snort-mode] Using PCAP-file: ")
-      (prin1 pcap-file)
-      (princ "\n")
-      (if (not (file-exists-p conf-file))
-          (progn
-            (princ "[snort-mode] Config file not found - creating simple config: ")
-            (prin1 conf-file)
-            (princ "\n")
-            (snort-create-config-for-current-file))
-        (princ "[snort-mode] Using config file: ")
-        (prin1 conf-file)
-        (princ "\n"))
-      (princ "[snort-mode] Starting Snort\n")
-      (switch-to-buffer-other-window "*snort*")
-      (call-process "snort" nil "*snort*" nil
+  (with-current-buffer (get-buffer-create "*snort*")
+    (erase-buffer)
+    (insert "[snort-mode] Validating buffer\n")
+    (let ((conf-file (concat (file-name-nondirectory buffer-file-name) ".conf")))
+      (insert (format "[snort-mode] Using PCAP-file: %s\n" pcap-file))
+      (if (file-exists-p conf-file)
+        (insert "[snort-mode] Using config file: " conf-file "\n")
+        (insert "[snort-mode] Config file not found - creating simple config: "
+                conf-file "\n")
+        (snort-create-config-for-current-file))
+      (insert "[snort-mode] Starting Snort\n")
+      (switch-to-buffer-other-window (current-buffer))
+      (call-process "snort" nil (current-buffer) nil
                     "-c" conf-file
                     "-r" (expand-file-name pcap-file)
                     "-A" "console"
