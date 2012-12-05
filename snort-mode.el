@@ -1,4 +1,4 @@
-;; snort-mode - major mode for editing Snort rules
+;;; snort-mode.el --- major mode for editing Snort rules
 
 ;; Author: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
 ;; Edited: <2012-12-04 Tue>
