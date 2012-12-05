@@ -3,6 +3,11 @@
 # # generic test rules
 # # 
 
+# (require 'snort-mode)
+# (snort-mode)
+# (snort-validate)
+# (snort-create-simple-config)
+
 # (call-process "snort" nil "test.rules" nil 
 #     "-c" "test.rules.conf" 
 #     "-r" (expand-file-name "~/.emacs.d/site-lisp/snort-mode/test/http.cap") 
@@ -10,8 +15,8 @@
 
 var RULES_PATH rules/
 
-# alert tcp any any -> 192.168.1.0/24 111 \
-#    ( content:"|00 01 86 a5|"; msg:"mountd anyone access"; sid:1; ) 
+alert tcp any any -> 192.168.1.0/24 111 \
+  ( content:"|00 01 86 a5|"; msg:"mountd anyone access"; sid:1; ) 
 
 # log tcp any any -> 192.168.1.0/24 :6000
 

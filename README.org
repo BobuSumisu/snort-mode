@@ -37,7 +37,7 @@
    - =snort-basic-offset=: the indentation level
    - =snort-executable=: path to the Snort executable
 
-*** Todo
+** Todo
 
     - Remove word lists when regexp are created? (free memory) 
     - Does not support user created rule actions 
