@@ -4,6 +4,15 @@
 * Snort Major Mode
 ** Disclaimer
    This is my first project in elisp, so any tips/issues are highly welcome! 
+** What is Snort?
+   [[http://www.snort.org/][Snort]] is an open source network intrusion prevention and detection system (IDS/IPS) 
+   developed by [[http://www.sourcefire.com/][Sourcefire]]. 
+
+   Combining the benefits of signature, protocol, and anomaly-based inspection, 
+   Snort is the most widely deployed IDS/IPS technology worldwide. 
+
+   With millions of downloads and nearly 400,000 registered users, 
+   Snort has become the de facto standard for IPS. 
 ** Features
 *** Misc
     Basic support for syntax highlighting, commenting and indentation.
