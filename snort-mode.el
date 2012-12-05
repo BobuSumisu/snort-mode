@@ -217,3 +217,5 @@
   (run-hooks 'snort-mode-hook))
 
 (provide 'snort-mode)
+
+;;; snort-mode.el ends here
