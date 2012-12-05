@@ -1,18 +1,24 @@
-;;; snort-mode.el --- major mode for editing Snort rules
+;;; snort-mode.el --- Major mode for editing Snort rules
 
 ;; Author: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
 ;; Edited: <2012-12-04 Tue>
 ;; Version: 1.0
-;; Source:
 
-;; Todo:
+;;; Todo:
 ;; - Remove word lists when regexp are created? (free memory)
 ;; - Does not support user created rule actions
 ;; - Variable modifiers
 ;; - Syntax table
 
-(defcustom snort-basic-offset 4 "Snort identation level.")
+;;; Commentary:
 
+;; Here are some of the things which `snort-mode' lets you do:
+;;
+;; TODO: Add some examples.
+
+;;; Code;
+
+(defcustom snort-basic-offset 4 "Snort identation level.")
 
 (defvar snort-mode-map
   (let ((map (make-sparse-keymap)))
