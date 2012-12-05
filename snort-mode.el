@@ -50,6 +50,11 @@
   :type 'integer
   :group 'snort)
 
+(defcustom snort-executable "/usr/sbin/snort"
+  "Path to the Snort executable"
+  :type 'string
+  :group 'snort)
+
 (defvar snort-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map "C-j" 'newline-and-indent)
@@ -97,6 +102,7 @@
 (defvar snort-end-of-rule-regexp ".*)\\s-*$")
 (defvar snort-multiline-regexp ".*\\\\\\s-*$")
 (defvar snort-ruletype-regexp "\\(ruletype\\|{\\|}\\)")
+(defvar snort-full-line-comment-regexp "^\\s-*\\#.*")
 
 (defvar snort-font-lock-keywords
   `(
@@ -125,21 +131,11 @@
        (beginning-of-line)
        (looking-at ,regexp))))
 
-(def-snort-rule-p snort-beginning-of-rule-p 
-  snort-beginning-of-rule-regexp)
-
-(def-snort-rule-p snort-end-of-rule-p 
-  snort-end-of-rule-regexp)
-
-(def-snort-rule-p snort-multiline-rule-p 
-  snort-multiline-regexp)
-
-(def-snort-rule-p snort-full-line-comment-p 
-  "^\\s-*\\#.*")
-
-(def-snort-rule-p snort-ruletype-p
-  "^\\s-*\\(ruletype\\|{\\|}\\)")
-
+(def-snort-rule-p snort-beginning-of-rule-p snort-beginning-of-rule-regexp)
+(def-snort-rule-p snort-end-of-rule-p snort-end-of-rule-regexp)
+(def-snort-rule-p snort-multiline-rule-p snort-multiline-regexp)
+(def-snort-rule-p snort-full-line-comment-p snort-full-line-comment-regexp)
+(def-snort-rule-p snort-ruletype-p snort-ruletype-regexp)
 
 (defun snort-next-rule (&optional n)
   "Move to the beginning of the next rule."
@@ -151,12 +147,12 @@
 (defun snort-previous-rule (&optional n)
   "Move to the beginning of the previous rule."
   (interactive "p")
-  (while (snort-multiline-rulep)
+  (while (snort-multiline-rule-p)
     (forward-line -1))
   (re-search-backward snort-beginning-of-rule-regexp nil 'noerror n))
 
 (defun snort-create-config-for-current-file ()
-  "Create a simple Snort-config for the current file"
+  "Create a simple Snort-config for the current file."
   (interactive)
   (let ((file (file-name-nondirectory buffer-file-name)))
         (with-temp-file (concat file ".conf")
