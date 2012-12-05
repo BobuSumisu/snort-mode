@@ -23,12 +23,9 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Todo:
-;; - Remove word lists when regexp are created? (free memory)
-;; - Does not support user created rule actions
-;; - Variable modifiers
-;; - Syntax table
-;; - Commentary (examples)
-;; - call-process with list?
+;; See README.org or https://github.com/BobuSumisu/snort-mode
+;;
+;; All contributions are welcomed warmly :)
 
 ;;; Commentary:
 ;; Here are some of the things which `snort-mode' lets you do:

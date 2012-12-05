@@ -30,6 +30,13 @@
 
    Jump between rules with =snort-next-rule= and =snort-previous-rule=.
 
+** Customizable variables
+   
+   Variables are in the =snort= group.
+
+   - =snort-basic-offset=: the indentation level
+   - =snort-executable=: path to the Snort executable
+
 *** Todo
 
     - Remove word lists when regexp are created? (free memory) 
@@ -39,3 +46,4 @@
     - Function =snort-kill-rule=
 
 
+    
