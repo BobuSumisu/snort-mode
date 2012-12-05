@@ -187,6 +187,7 @@
                     "-q")
       (goto-char (point-max)))))
 
+;;;###autoload
 (define-derived-mode snort-mode prog-mode
   "Snort" "A major mode for editing Snort rules."
   ;; (set-syntax-table snort-mode-syntax-table)
