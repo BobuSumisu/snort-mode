@@ -18,14 +18,19 @@
 
 ;;; Code;
 
-(defcustom snort-basic-offset 4 "Snort identation level.")
+(defgroup snort nil
+  "Major mode for editing Snort rules")
+
+(defcustom snort-basic-offset 4
+  "Snort identation level."
+  :type 'integer
+  :group 'snort)
 
 (defvar snort-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map "C-j" 'newline-and-indent)
     map)
   "Keymap for Snort major mode")
-
 
 (defvar snort-actions
   '("alert" "log" "pass" "activate" "dynamic" "drop" "reject" "sdrop" "ruletype"
@@ -43,8 +48,8 @@
     "icmp_id" "icmp_seq" "rpc" "ip_proto" "sameip" "stream_reassemble" "stream_size"
     "logto" "session" "resp" "react" "tag" "activates" "activated_by" "replace" "detection_filter"
     "treshold")
-  "Rule modifiers, basically everything that can have ":" behind
-  it - and some without arguments")
+  "Rule modifiers are everything which can have the suffix ":"
+Some without arguments.")
 
 (defvar snort-keywords
   '("tcp" "udp" "icmp" "ip" "hex" "dec" "oct" "string" "type" "output" "any" "engine" "soid" "service"
@@ -68,7 +73,6 @@
 (defvar snort-end-of-rule-regexp ".*)\\s-*$")
 (defvar snort-multiline-regexp ".*\\\\\\s-*$")
 (defvar snort-ruletype-regexp "\\(ruletype\\|{\\|}\\)")
-
 
 (defvar snort-font-lock-keywords
   `(
@@ -123,7 +127,6 @@
   (save-excursion
     (beginning-of-line)
     (looking-at "^\\s-*\\(ruletype\\|{\\|}\\)")))
-
 
 (defun snort-next-rule (&optional n)
   "Move to the beginning of the next rule."
@@ -190,6 +193,7 @@
 ;;;###autoload
 (define-derived-mode snort-mode prog-mode
   "Snort" "A major mode for editing Snort rules."
+  :group 'snort
   ;; (set-syntax-table snort-mode-syntax-table)
   (set (make-local-variable 'font-lock-defaults) '(snort-font-lock-keywords))
   (set (make-local-variable 'indent-line-function) 'snort-indent-line)
