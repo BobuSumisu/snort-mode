@@ -2,11 +2,11 @@
 #+DATE: <2012-12-04 Tue>
 
 * Snort Major Mode
-** Disclaimer
-   This is my first project in elisp, so any tips/issues are highly welcome! 
-** What is Snort?
+** About SNORT®
    [[http://www.snort.org/][Snort]] is an open source network intrusion prevention and detection system (IDS/IPS) 
    developed by [[http://www.sourcefire.com/][Sourcefire]]. 
+
+   [[http://upload.wikimedia.org/wikipedia/en/3/3a/Snort_ids_logo.png]]
 
    Combining the benefits of signature, protocol, and anomaly-based inspection, 
    Snort is the most widely deployed IDS/IPS technology worldwide. 
@@ -14,14 +14,13 @@
    With millions of downloads and nearly 400,000 registered users, 
    Snort has become the de facto standard for IPS. 
 ** Features
-*** Misc
-    Basic support for syntax highlighting, commenting and indentation.
-*** Testing
-    Validate the syntax of the current rule file with =snort-validate=
-    To test rules against a PCAP file =snort-test-pcap=
-*** Functions
-    Go to the next Snort rule with =snort-next-rule=
-    Go to the previous rule =snort-previous-rule=
+   Support for syntax highlighting, commenting and indentation.
+
+   Validate the syntax of the current file with =snort-validate= and test it against a 
+   PCAP-file with =snort-test-pcap=.
+
+   Jump between rules with =snort-next-rule= and =snort-previous-rule=.
+
 *** Todo
     - Remove word lists when regexp are created? (free memory) 
     - Does not support user created rule actions 
