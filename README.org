@@ -1,19 +1,28 @@
 #+AUTHOR: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
 #+DATE: <2012-12-04 Tue>
 
-* Snort Major Mode
+* Snort Major Mode for Emacs
 ** About SNORT®
-   [[http://www.snort.org/][Snort]] is an open source network intrusion prevention and detection system (IDS/IPS) 
-   developed by [[http://www.sourcefire.com/][Sourcefire]]. 
 
    [[http://upload.wikimedia.org/wikipedia/en/3/3a/Snort_ids_logo.png]]
+
+   [[http://www.snort.org/][Snort]] is an open source network intrusion prevention and detection system (IDS/IPS) 
+   developed by [[http://www.sourcefire.com/][Sourcefire]]. 
 
    Combining the benefits of signature, protocol, and anomaly-based inspection, 
    Snort is the most widely deployed IDS/IPS technology worldwide. 
 
    With millions of downloads and nearly 400,000 registered users, 
    Snort has become the de facto standard for IPS. 
+
+** Emacs 
+
+   [[http://www.gnu.org/software/emacs/][GNU Emacs]] is an extensible, customizable text editor—and more. 
+   At its core is an interpreter for Emacs Lisp, a dialect of the 
+   Lisp programming language with extensions to support text editing. 
+
 ** Features
+
    Support for syntax highlighting, commenting and indentation.
 
    Validate the syntax of the current file with =snort-validate= and test it against a 
@@ -22,6 +31,7 @@
    Jump between rules with =snort-next-rule= and =snort-previous-rule=.
 
 *** Todo
+
     - Remove word lists when regexp are created? (free memory) 
     - Does not support user created rule actions 
     - Variable modifiers 
