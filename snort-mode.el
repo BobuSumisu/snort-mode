@@ -1,25 +1,49 @@
 ;;; snort-mode.el --- Major mode for editing Snort rules
 
 ;; Author: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
-;; Edited: <2012-12-04 Tue>
+;; Created: 2012-12-04
+;; Edited: 2012-12-05
 ;; Version: 1.0
+;; Keywords: snort
+;; Repository: https://github.com/BobuSumisu/snort-mode
+
+;; This file is not part of GNU Emacs.
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Todo:
 ;; - Remove word lists when regexp are created? (free memory)
 ;; - Does not support user created rule actions
 ;; - Variable modifiers
 ;; - Syntax table
+;; - Commentary (examples)
 
 ;;; Commentary:
-
 ;; Here are some of the things which `snort-mode' lets you do:
 ;;
-;; TODO: Add some examples.
+;; - Jump between rules with `snort-next-rule' and `snort-previous-rule'.
+;; - Validate rule syntax with `snort-validate' 
+;; - Test rules against a PCAP-file with `snort-test-pcap'
+;;
+
+;;; Change Log:
+;; See https://github.com/BobuSumisu/snort-mode for a complete changelog.
 
 ;;; Code;
 
 (defgroup snort nil
-  "Major mode for editing Snort rules")
+  "Major mode for editing Snort rules.")
 
 (defcustom snort-basic-offset 4
   "Snort identation level."
@@ -30,11 +54,12 @@
   (let ((map (make-sparse-keymap)))
     (define-key map "C-j" 'newline-and-indent)
     map)
-  "Keymap for Snort major mode")
+  "Keymap for Snort major mode.")
 
 (defvar snort-actions
   '("alert" "log" "pass" "activate" "dynamic" "drop" "reject" "sdrop" "ruletype"
-    "var" "portvar" "ipvar"))
+    "var" "portvar" "ipvar")
+  "Rule actions in Snort.")
 
 (defvar snort-modifiers
   '("msg" "reference" "gid" "sid" "rev" "classtype" "priority" "metadata" "content" "http_encode"
@@ -48,8 +73,7 @@
     "icmp_id" "icmp_seq" "rpc" "ip_proto" "sameip" "stream_reassemble" "stream_size"
     "logto" "session" "resp" "react" "tag" "activates" "activated_by" "replace" "detection_filter"
     "treshold")
-  "Rule modifiers are everything which can have the suffix ":"
-Some without arguments.")
+  "Rule action modifiers in Snort.")
 
 (defvar snort-keywords
   '("tcp" "udp" "icmp" "ip" "hex" "dec" "oct" "string" "type" "output" "any" "engine" "soid" "service"
@@ -61,7 +85,7 @@ Some without arguments.")
     "from_server" "established" "not_established" "stateless" "no_stream" "only_stream" "no_frag" "only_frag"
     "set" "setx" "unset" "toggle" "isset" "isnotset" "noalert" "limit" "treshold" "count" "str_offset" "str_depth"
     "tagged")
-  "arguments to modifiers")
+  "Snort keywords.")
 
 (defvar snort-actions-regexp (regexp-opt snort-actions 'words))
 (defvar snort-modifiers-regexp (regexp-opt snort-modifiers 'words))
@@ -87,46 +111,35 @@ Some without arguments.")
   "Indent current line of Snort code."
   (interactive)
   (beginning-of-line)
-  (if (or (snort-beginning-of-rulep)
-          (snort-full-line-commentp)
-          (snort-ruletypep))
+  (if (or (snort-beginning-of-rule-p)
+          (snort-full-line-comment-p)
+          (snort-ruletype-p))
       (indent-line-to 0)
     (indent-line-to snort-basic-offset)))
 
-(defun snort-beginning-of-rulep ()
-  "Test if the current line is start of a rule."
-  (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (looking-at snort-beginning-of-rule-regexp)))
+(defmacro def-snort-rule-p (name regexp)
+  `(defun ,name ()
+     "Auto-generated for snort-mode"
+     (interactive)
+     (save-excursion
+       (beginning-of-line)
+       (looking-at ,regexp))))
 
-(defun snort-end-of-rulep ()
-  "Test if the current line is the end of a rule."
-  (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (looking-at snort-end-of-rule-regexp)))
+(def-snort-rule-p snort-beginning-of-rule-p 
+  snort-beginning-of-rule-regexp)
 
-(defun snort-full-line-commentp ()
-  "Test if the current line is a full line comment"
-  (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (looking-at "^\\s-*\\#.*")))
+(def-snort-rule-p snort-end-of-rule-p 
+  snort-end-of-rule-regexp)
 
-(defun snort-multiline-rulep ()
-  "Test if the current line is part of a multiline rule."
-  (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (looking-at snort-multiline-regexp)))
+(def-snort-rule-p snort-multiline-rule-p 
+  snort-multiline-regexp)
 
-(defun snort-ruletypep ()
-  "Test if the current line is part of a ruletype defenition."
-  (interactive)
-  (save-excursion
-    (beginning-of-line)
-    (looking-at "^\\s-*\\(ruletype\\|{\\|}\\)")))
+(def-snort-rule-p snort-full-line-comment-p 
+  "^\\s-*\\#.*")
+
+(def-snort-rule-p snort-ruletype-p
+  "^\\s-*\\(ruletype\\|{\\|}\\)")
+
 
 (defun snort-next-rule (&optional n)
   "Move to the beginning of the next rule."
@@ -148,6 +161,9 @@ Some without arguments.")
   (let ((file (file-name-nondirectory buffer-file-name)))
         (with-temp-file (concat file ".conf")
           (insert (format "include %s\nconfig logdir: .\n" file)))))
+
+(defun snort-call-with-args (args)
+  "Call Snort process with provided arguments")
 
 (defun snort-validate ()
   "Validate the syntax of the current Snort-file."
