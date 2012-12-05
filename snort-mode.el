@@ -161,9 +161,8 @@
 
 (defun snort-call-with-args (arglist)
   "Call Snort with provided arguments and output to current buffer."
-  (insert (combine-and-quote-strings arglist))
-  (eval `(call-process ,snort-executable nil (current-buffer) nil 
-                ,@arglist)))
+  (apply 'call-process snort-executable nil (current-buffer) nil arglist))
+
 
 (defun snort-validate ()
   "Validate the syntax of the current Snort-file."
