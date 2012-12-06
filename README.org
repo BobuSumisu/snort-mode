@@ -29,7 +29,7 @@
    Validate the syntax of the current file with =snort-validate= and test it against a 
    PCAP-file with =snort-test-pcap=.
 
-   Jump between rules with =snort-next-rule= and =snort-previous-rule=.
+   Jump between rules with =snort-next-rule= and =snort-previous-rule=. Kill the rule at the point with =snort-kill-rule=.
 
 ** Customizable variables
    

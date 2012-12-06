@@ -31,8 +31,9 @@
 ;; Here are some of the things which `snort-mode' lets you do:
 ;;
 ;; - Jump between rules with `snort-next-rule' and `snort-previous-rule'.
-;; - Validate rule syntax with `snort-validate'
-;; - Test rules against a PCAP-file with `snort-test-pcap'
+;; - Kill the current rule with `snort-kill-rule'.
+;; - Validate rule syntax with `snort-validate'.
+;; - Test rules against a PCAP-file with `snort-test-pcap'.
 ;;
 
 ;;; Change Log:
