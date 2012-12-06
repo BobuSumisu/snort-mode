@@ -1,33 +1,24 @@
-
-# #
-# # generic test rules
-# # 
-
+# for testing
 # (require 'snort-mode)
 # (snort-mode)
 # (snort-validate)
 # (snort-create-simple-config)
 
-# (call-process "snort" nil "test.rules" nil 
-#     "-c" "test.rules.conf" 
-#     "-r" (expand-file-name "~/.emacs.d/site-lisp/snort-mode/test/http.cap") 
-#     "-A" "console" "-q")
+var RULES_PATH rules/           # skriv "noe" 
 
-var RULES_PATH rules/
+alert tcp any any -> 192.168.1.0/24 111 \ 
+    ( content:"|00 01 86 a5|"; msg:"mountd anyone access"; sid:1; ) 
 
-alert tcp any any -> 192.168.1.0/24 111 \
-  ( content:"|00 01 86 a5|"; msg:"mountd anyone access"; sid:1; ) 
+# log tcp any any -> 192.168.1.0/24 :6000 "test" dete skal være en comment
 
-# log tcp any any -> 192.168.1.0/24 :6000
-
-alert tcp any any -> any 80 (msg:"HTTP (GET) Service Rule Example"; \
-    metadata:service http; sid:2;)
-
+# alert tcp any any -> any 80 (msg:"HTTP (GET) Service Rule Example"; metadata:service http; sid:2;)
+# alert tcp any any -> any 80 (msg:'')
 # alert tcp any any -> any any (msg:"UTF8/UEncode Encoding present"; http_encode:uri,utf8|uencode;)
 
 # alert tcp $EXTERNAL_NET any -> $HOME_NET any \
 #     (msg:"Base64 Encoded Data"; base64_decode; base64_data; \
 #     content:"foo bar"; within:20;)
+
 
 # alert tcp $EXTERNAL_NET any -> $HOME_NET any \
 #     (msg:"AMD procedure 7 plog overflow"; \

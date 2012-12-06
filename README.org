@@ -40,13 +40,13 @@
 
 ** Todo
 *** Misc.
-    - Remove word lists when regexp are created? (free memory)
-    - Does not support user created rule actions 
+    - Remove word lists when regexp are created (free memory?)
+    - Does not support user created rule actions (dynamically?)
     - Variable modifiers 
-    - Syntax table
+    - Extend the syntax table
 *** Functions
     - =snort-kill=: kill rule at point
-    - =snort-expand=/=snort-contract=/=snort-expand-all=/=snort-contract-all=: toggle between one-line and multiline rules (one modifier per line)
-    - =snort-create-rule=: create skelleton for common rules (e.g. dns query, http-requests, ping)
+    - =snort-expand=, =snort-contract=, =snort-expand-all=, =snort-contract-all=: toggle between one-line and multiline rules (one modifier per line)
+    - =snort-create-rule=: create skeleton for common rules (e.g. dns query, http-requests, ping)
 
     

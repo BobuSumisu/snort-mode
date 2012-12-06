@@ -36,7 +36,7 @@
 ;;
 
 ;;; Change Log:
-;; See https://github.com/BobuSumisu/snort-mode for a complete changelog.
+;; See commit history at https://github.com/BobuSumisu/snort-mode for a complete changelog.
 
 ;;; Code;
 
@@ -58,6 +58,14 @@
     (define-key map "C-j" 'newline-and-indent)
     map)
   "Keymap for Snort major mode.")
+
+(defvar snort-syntax-table
+  (let ((syntax-table (make-syntax-table)))
+    (modify-syntax-entry ?# "< b" syntax-table)
+    (modify-syntax-entry ?\n "> b" syntax-table)
+    syntax-table)
+  "Syntax table for Snort major mode.")
+  
 
 (defvar snort-actions
   '("alert" "log" "pass" "activate" "dynamic" "drop" "reject" "sdrop" "ruletype"
@@ -93,19 +101,19 @@
 (defvar snort-actions-regexp (regexp-opt snort-actions 'words))
 (defvar snort-modifiers-regexp (regexp-opt snort-modifiers 'words))
 (defvar snort-keywords-regexp (regexp-opt snort-keywords 'words))
-(defvar snort-comments-regexp "\\(^\\|\\s-\\)\\#.*")
+(defvar snort-comments-regexp "\\(^\\| \\)\\#.*")
 (defvar snort-variables-regexp "\\(^\\| \\)\\$\\(\\sw\\|\\s_\\)+")
 
 (defvar snort-beginning-of-rule-regexp (concat "^\\s-*" snort-actions-regexp))
 (defvar snort-end-of-rule-regexp ".*)\\s-*$")
 (defvar snort-multiline-regexp ".*\\\\\\s-*$")
 (defvar snort-ruletype-regexp "\\(ruletype\\|{\\|}\\)")
-(defvar snort-full-line-comment-regexp "^\\s-*\\#.*")
+(defvar snort-full-line-comment-regexp "\\(^\\|\\s-\\)\\#.*$")
 
 (defvar snort-font-lock-keywords
   `(
+    (,snort-full-line-comment-regexp . font-lock-comment-face)
     (,snort-keywords-regexp . font-lock-keyword-face)
-    (,snort-comments-regexp . font-lock-comment-face)
     (,snort-actions-regexp . font-lock-constant-face)
     (,snort-modifiers-regexp . font-lock-function-name-face)
     (,snort-variables-regexp . font-lock-variable-name-face)
@@ -191,7 +199,7 @@
 (define-derived-mode snort-mode prog-mode
   "Snort" "A major mode for editing Snort rules."
   :group 'snort
-  ;; (set-syntax-table snort-mode-syntax-table)
+  (set-syntax-table snort-syntax-table)
   (set (make-local-variable 'font-lock-defaults) '(snort-font-lock-keywords))
   (set (make-local-variable 'indent-line-function) 'snort-indent-line)
   (setq comment-start "#"))
