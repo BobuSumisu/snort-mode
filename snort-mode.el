@@ -31,14 +31,14 @@
 ;; Here are some of the things which `snort-mode' lets you do:
 ;;
 ;; - Jump between rules with `snort-next-rule' and `snort-previous-rule'.
-;; - Validate rule syntax with `snort-validate' 
+;; - Validate rule syntax with `snort-validate'
 ;; - Test rules against a PCAP-file with `snort-test-pcap'
 ;;
 
 ;;; Change Log:
 ;; See commit history at https://github.com/BobuSumisu/snort-mode for a complete changelog.
 
-;;; Code;
+;;; Code:
 
 (defgroup snort nil
   "Major mode for editing Snort rules.")
@@ -49,7 +49,7 @@
   :group 'snort)
 
 (defcustom snort-executable "/usr/sbin/snort"
-  "Path to the Snort executable"
+  "Path to the Snort executable."
   :type 'string
   :group 'snort)
 
@@ -66,7 +66,6 @@
     syntax-table)
   "Syntax table for Snort major mode.")
   
-
 (defvar snort-actions
   '("alert" "log" "pass" "activate" "dynamic" "drop" "reject" "sdrop" "ruletype"
     "var" "portvar" "ipvar")
@@ -130,6 +129,7 @@
     (indent-line-to snort-basic-offset)))
 
 (defmacro def-snort-rule-p (name regexp)
+  "Used to create Snort predicate functions."
   `(defun ,name ()
      "Auto-generated for snort-mode"
      (interactive)
@@ -142,6 +142,31 @@
 (def-snort-rule-p snort-multiline-rule-p snort-multiline-regexp)
 (def-snort-rule-p snort-full-line-comment-p snort-full-line-comment-regexp)
 (def-snort-rule-p snort-ruletype-p snort-ruletype-regexp)
+
+(defun snort-point-on-rule-p ()
+  "Test if the point currently is on a rule."
+  (interactive)
+  (or (snort-beginning-of-rule-p)
+      (snort-end-of-rule-p)
+      (snort-multiline-rule-p)))
+
+(defun snort-goto-beginning-of-rule ()
+  "Move point to the beginning of the current rule."
+  (interactive)
+  (if (snort-point-on-rule-p)
+      (progn 
+        (while (not (or (snort-beginning-of-rule-p) (bobp)))
+          (forward-line -1))
+        (beginning-of-line))))
+
+(defun snort-goto-end-of-rule ()
+  "Move point to the end of the current rule."
+  (interactive)
+  (if (snort-point-on-rule-p)
+      (progn
+        (while (not (or (snort-end-of-rule-p) (eobp)))
+          (forward-line 1))
+        (end-of-line))))
 
 (defun snort-next-rule (&optional n)
   "Move to the beginning of the next rule."
@@ -157,10 +182,32 @@
     (forward-line -1))
   (re-search-backward snort-beginning-of-rule-regexp nil 'noerror n))
 
+(defun snort-kill-rule ()
+  "Kill the current rule."
+  (interactive)
+  (if (snort-point-on-rule-p)
+      (progn
+        (snort-goto-beginning-of-rule)
+        (let ((beg (point)))
+          (snort-goto-end-of-rule)
+          (kill-region beg (point))))))
+
+(defun snort-expand-rule ()
+  "Expand a rule to a multilined rule (one modifier per line).")
+
+(defun snort-contract-rule ()
+  "Contract a rule to a one-lined rule.")
+
+(defun snort-expand-all ()
+  "Expand all rules to multilined rules (one modifier per line).")
+
+(defun snort-contract-all ()
+  "Contract all rules to one-lined rules.")
+
 (defun snort-create-simple-config ()
   "Create a simple Snort-config for the current file [if not exists]."
   (interactive)
-  (let ((rule-file (file-name-nondirectory buffer-file-name)) 
+  (let ((rule-file (file-name-nondirectory buffer-file-name))
         (conf-file (concat (file-name-nondirectory buffer-file-name) ".conf")))
     (if (not (file-exists-p conf-file))
         (with-temp-file conf-file
@@ -170,7 +217,6 @@
 (defun snort-call-with-args (arglist)
   "Call Snort with provided arguments and output to current buffer."
   (apply 'call-process snort-executable nil (current-buffer) nil arglist))
-
 
 (defun snort-validate ()
   "Validate the syntax of the current Snort-file."

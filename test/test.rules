@@ -6,8 +6,11 @@
 
 var RULES_PATH rules/           # skriv "noe" 
 
-alert tcp any any -> 192.168.1.0/24 111 \ 
-    ( content:"|00 01 86 a5|"; msg:"mountd anyone access"; sid:1; ) 
+alert tcp any any -> 192.168.1.0/24 111 ( \ 
+    content:"|00 01 86 a5|"; \
+    msg:"mountd anyone access"; \
+    sid:1; \ 
+)
 
 # log tcp any any -> 192.168.1.0/24 :6000 "test" dete skal være en comment
 
