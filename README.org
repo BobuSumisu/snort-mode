@@ -1,3 +1,4 @@
+
 #+AUTHOR: Øyvind Ingvaldsen <oyvind.ingvaldsen@gmail.com>
 #+DATE: <2012-12-04 Tue>
 
@@ -38,12 +39,14 @@
    - =snort-executable=: path to the Snort executable
 
 ** Todo
-
-    - Remove word lists when regexp are created? (free memory) 
+*** Misc.
+    - Remove word lists when regexp are created? (free memory)
     - Does not support user created rule actions 
     - Variable modifiers 
     - Syntax table
-    - Function =snort-kill-rule=
-
+*** Functions
+    - =snort-kill=: kill rule at point
+    - =snort-expand=/=snort-contract=/=snort-expand-all=/=snort-contract-all=: toggle between one-line and multiline rules (one modifier per line)
+    - =snort-create-rule=: create skelleton for common rules (e.g. dns query, http-requests, ping)
 
     
